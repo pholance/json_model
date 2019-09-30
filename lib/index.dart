@@ -75,7 +75,7 @@ bool walk(String srcDir, String distDir, String tag ) {
         attrs.write("    ");
       });
       String  className=name[0].toUpperCase()+name.substring(1);
-      var dist=format(tpl,[name,className,className + _extands.toString(),attrs
+      var dist=format(tpl,[name,className,className+_extands.toString(),attrs
           .toString(),
       className,className,className]);
       var _import=set.join(";\r\n");
