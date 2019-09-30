@@ -60,7 +60,9 @@ bool walk(String srcDir, String distDir, String tag ) {
           }
           if (key.startsWith("@extends")) {
             //多个@extends只保留最后一个
-            _extends = " extends ${getType(v, set, name, tag)}";
+            final extendType = getType(v, set, name, tag);
+            _extends = " extends ${extendType.startsWith('@') ? extendType
+                .substring(1) : extendType}";
             return;
           }
           attrs.write(key);
