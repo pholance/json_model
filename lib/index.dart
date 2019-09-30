@@ -46,7 +46,7 @@ bool walk(String srcDir, String distDir, String tag ) {
       var map = json.decode(file.readAsStringSync());
       //为了避免重复导入相同的包，我们用Set来保存生成的import语句。
       var set= new Set<String>();
-      StringBuffer _extands = new StringBuffer();
+      var _extends = '';
       StringBuffer attrs= new StringBuffer();
       (map as Map<String, dynamic>).forEach((key, v) {
         if(key.startsWith("_")) return ;
@@ -58,8 +58,9 @@ bool walk(String srcDir, String distDir, String tag ) {
             set.add("import '$v'");
             return;
           }
-          if (key.startsWith("@extands")) {
-            _extands.write(" extands ${getType(v, set, name, tag)}");
+          if (key.startsWith("@extends")) {
+            //多个@extends只保留最后一个
+            _extends = " extends ${getType(v, set, name, tag)}";
             return;
           }
           attrs.write(key);
@@ -75,7 +76,7 @@ bool walk(String srcDir, String distDir, String tag ) {
         attrs.write("    ");
       });
       String  className=name[0].toUpperCase()+name.substring(1);
-      var dist=format(tpl,[name,className+_extands.toString(),className,attrs
+      var dist=format(tpl,[name,className+_extends,className,attrs
           .toString(),
       className,className,className]);
       var _import=set.join(";\r\n");
